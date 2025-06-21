@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Login Form</h1>
+  <div>
+    <label for="email">email</label>
+    <input type="text" name="email" id="email">
+  </div>
+  <div>
+    <label for="password">password</label>
+    <input type="password" name="password" id="password">
+  </div>
+  <div>
+    <button id="login" onclick="login()">Login</button>
+    <button onclick="getUsers()">Get Users</button>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.10.0/axios.min.js" integrity="sha512-WkZrEcQ5LMyNy6Y2PQf+Tu3vMcsmKKRKuPXtJSTHQJ3mpuvLRlA5dlDDhrrcXfyWr6Z/y3wIMfjfqVFO/gDZYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const login = async () => {
+      try {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const result = await axios.post("http://localhost:8000/api/login", {
+          email,
+          password
+        }, {
+          withCredentials: true
+        });
+        // localStorage.setItem("token", result.data.token);
+        
+      }catch (error) {
+        console.log('error',error);
+      }
+    }
+    const getUsers = async () => {
+      try{
+        // const authToken = localStorage.getItem("token");
+        const result = await axios.get("http://localhost:8000/api/users", {
+          // headers: {
+          //   Authorization: `Bearer ${authToken}`
+          // }
+          withCredentials: true
+        })
+        console.log("result", result.data);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+  </script>
+</body>
+</html>
